@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include "bin/data_types_conversion.h"
 
 int main(int nrargs, char *args[]){
 	char memory[65535];
@@ -197,7 +198,15 @@ int main(int nrargs, char *args[]){
 		std::cout << std::hex << std::setfill('0') << std::setw(4) << point << ": ";
 		switch(memory[point]){
 			case '\x06':
-				std::cout << "LD B, " << std::hex << std::setfill('0') << std::setw(2) << memory[point+1] << '\n'; // this isnt working cause memory[point+1] is in hex-binary format and not decimal
+				std::cout << "LD B, " << std::hex << std::setfill('0') << std::setw(2) << d3s::bintoint(memory[point+1]) << '\n';
+				point = point + 2;
+				break;
+			case '\x0e':
+				std::cout << "LD C, " << std::hex << std::setfill('0') << std::setw(2) << d3s::bintoint(memory[point+1]) << '\n';
+				point = point + 2;
+				break;
+			case '\x16':
+				std::cout << "LD D, " << std::hex << std::setfill('0') << std::setw(2) << d3s::bintoint(memory[point+1]) << '\n';
 				point = point + 2;
 				break;
 			default:
